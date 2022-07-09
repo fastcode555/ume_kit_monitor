@@ -1,0 +1,17 @@
+name: ume_kit_monitor
+description: use ume_kit_monitor to check more net log
+
+version: 0.0.1
+homepage: https://github.com/fastcode555/Json2Dart_Null_Safety.git
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter_ume: '>=0.3.0'
+  flutter:
+    sdk: flutter
+  device_info_plus:
+  dio:
+  teledart:
+  oktoast:
