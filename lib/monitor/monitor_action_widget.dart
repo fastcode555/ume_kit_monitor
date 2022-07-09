@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ume_kit_monitor/monitor/overlay/overlay_action_panel.dart';
-import 'package:ume_kit_monitor/utils/screen_ext.dart';
 
 /// @date 4/21/21
 /// describe:
@@ -21,10 +19,9 @@ class MonitorActionWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         onTap?.call();
-        OverlayActionPanel.hide();
       },
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           color: Colors.black.withOpacity(0.7),

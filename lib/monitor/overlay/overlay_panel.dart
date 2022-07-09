@@ -1,5 +1,6 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:ume_kit_monitor/ext/context_ext.dart';
 import 'package:ume_kit_monitor/monitor/awesome_monitor.dart';
 import 'package:ume_kit_monitor/monitor/page/curl_page.dart';
 import 'package:ume_kit_monitor/monitor/page/error_page.dart';
@@ -7,29 +8,6 @@ import 'package:ume_kit_monitor/monitor/page/error_page.dart';
 /// @date 2020/12/17
 /// describe:悬浮面板
 class OverlayPane extends StatefulWidget {
-  static OverlayEntry? _entry;
-  static bool _isShow = false;
-
-  static bool get isShow => _isShow;
-
-  static show(BuildContext context) {
-    if (_isShow) {
-      return;
-    }
-    if (_entry == null) {
-      _entry = OverlayEntry(builder: (context) => OverlayPane());
-    }
-    Overlay.of(context)?.insert(_entry!);
-    _isShow = true;
-  }
-
-  static hide() {
-    if (_entry != null && _isShow) {
-      _entry?.remove();
-      _isShow = false;
-    }
-  }
-
   @override
   _OverlayPaneState createState() => _OverlayPaneState();
 }
@@ -55,6 +33,7 @@ class _OverlayPaneState extends State<OverlayPane> with TickerProviderStateMixin
         _lastSelectPage = _tabController?.index ?? 0;
       });
     }
+    double height = window.physicalSize.height / MediaQuery.of(context).devicePixelRatio;
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
@@ -62,7 +41,7 @@ class _OverlayPaneState extends State<OverlayPane> with TickerProviderStateMixin
           color: Colors.transparent,
           child: Container(
             color: Colors.black.withOpacity(0.7),
-            height: context.screenHeight / (_isFullScreen ? 1 : 2) - _statusHeight,
+            height: height / (_isFullScreen ? 1 : 2) - _statusHeight,
             width: double.infinity,
             child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -95,15 +74,6 @@ class _OverlayPaneState extends State<OverlayPane> with TickerProviderStateMixin
                       ),
                       onPressed: () {
                         setState(() => _isFullScreen = !_isFullScreen);
-                      },
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.close,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        OverlayPane.hide();
                       },
                     ),
                   ],

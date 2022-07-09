@@ -2,8 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ume_kit_monitor/core.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:ume_kit_monitor/monitor/page/log_recorder_detail_page.dart';
+import 'package:ume_kit_monitor/monitor/telegram_bot.dart';
+import 'package:ume_kit_monitor/monitor/utils/file_utils.dart';
+import 'package:ume_kit_monitor/monitor/utils/inner_utils.dart';
+import 'package:ume_kit_monitor/monitor/utils/navigator_util.dart';
 
 /// @date 10/9/21
 /// describe:
@@ -19,10 +23,8 @@ class _LogRecorderPageState extends State<LogRecorderPage> {
   @override
   void initState() {
     super.initState();
-    //TelegramBot.init('2030982018:AAFA94f4DKMFy_zFU1pEhAcJsVvVTdmUx1E', -533724522);
-    if (CoreConfig.debug) {
-      TelegramBot.init('2109015385:AAGUE_LfQoCIaFW2u-1kqqTgPMFiSzQCk4U', /*-1001157361480*/ -552609753);
-    }
+    TelegramBot.init('2109015385:AAGUE_LfQoCIaFW2u-1kqqTgPMFiSzQCk4U', /*-1001157361480*/ -552609753);
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       FileUtils.getAppDirectory().then((dirs) {
         Directory dir = Directory("${dirs.path}LogRecorder");
@@ -53,11 +55,11 @@ class _LogRecorderPageState extends State<LogRecorderPage> {
   }
 
   Widget _sepratorItem(BuildContext context, int index) =>
-      Divider(thickness: 1, height: 1, color: context.primaryColor);
+      Divider(thickness: 1, height: 1, color: Theme.of(context).primaryColor);
 
   _buildItem(File file) {
     return InkWell(
-      onTap: () => NavigatorUtil.pushPage(LogRecorderDetailPage(file)),
+      onTap: () => NavigatorUtil.pushPage(context, LogRecorderDetailPage(file)),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16),
         alignment: Alignment.centerLeft,
@@ -74,7 +76,7 @@ class _LogRecorderPageState extends State<LogRecorderPage> {
                     child: Text("${file.path}", style: TextStyle(fontSize: 10)),
                     onLongPress: () {
                       Clipboard.setData(ClipboardData(text: file.path));
-                      showToast(CoreIds.copySuccess.tr);
+                      showToast('复制成功');
                     },
                   ),
                 ],

@@ -1,26 +1,19 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:ume_kit_monitor/monitor/error_info_proccessor.dart';
 import 'package:ume_kit_monitor/monitor/monitor_action_widget.dart';
 import 'package:ume_kit_monitor/monitor/monitor_message_notifier.dart';
+import 'package:ume_kit_monitor/monitor/utils/inner_utils.dart';
 
-import 'overlay/overlay_icon.dart';
-
-/// @date 2020/11/25
-/// describe:
 class Monitor {
-  //force init variant
-  static const int CLICK_MAX_COUNT = 3;
   static const String MONITOR_TAG = "MONITOR_TAGS";
-  static Map<int, int> clickCounters = Map();
 
   Map<String, MonitorMessageNotifier<String>> _maps = Map();
   static List<MonitorActionWidget>? _actions;
 
   List<MonitorActionWidget>? get actions => _actions;
 
-  static bool _enable = CoreConfig.debug;
+  static bool _enable = !bool.fromEnvironment("dart.vm.product");
 
   static Monitor? _instance;
 
@@ -37,38 +30,8 @@ class Monitor {
     return _instance!;
   }
 
-  //to force init monitor to look for details
-  static void forceInit(int mark, BuildContext context) {
-    if (mark != 0 && mark != 1) {
-      return;
-    }
-
-    int? clickCount = clickCounters[mark];
-    clickCount = clickCount == null ? 1 : clickCount + 1;
-    clickCounters[mark] = clickCount;
-    bool forceInitMonitor = clickCounters[0] != null &&
-        clickCounters[0]! >= CLICK_MAX_COUNT &&
-        (clickCounters[1] != null && clickCounters[1]! >= CLICK_MAX_COUNT);
-    if (forceInitMonitor) {
-      _enable = true;
-      clickCounters.clear();
-      showToast("will force init the monitor!!!");
-      SpUtil.putBool(MONITOR_TAG, true);
-      if (_actions != null) {
-        Monitor.instance.addActions(_actions!);
-      }
-      Monitor.instance._putLastErrorFile();
-      Monitor.instance.show(context);
-    }
-  }
-
   static void init(BuildContext context, {List<MonitorActionWidget>? actions, bool? forceInit}) async {
-    if (forceInit != null && forceInit) {
-      CoreConfig.debug = forceInit;
-    }
-    _enable = CoreConfig.debug || await SpUtil.getBool(Monitor.MONITOR_TAG)!;
     if (_enable) {
-      Monitor.instance.show(context);
       Monitor.instance.addActions(actions);
     } else {
       _actions = actions;
@@ -85,11 +48,7 @@ class Monitor {
     }
   }
 
-  Monitor._internal() {
-    if (_enable) {
-      _putLastErrorFile();
-    }
-  }
+  Monitor._internal();
 
   MonitorMessageNotifier<String>? getNotifier(String? tag) => _maps[tag];
 
@@ -134,8 +93,6 @@ class Monitor {
 
   void putLogCat(String msg) => put("LogCat", msg);
 
-  void show(BuildContext context) => showFloating(context);
-
   void clear(String tag) {
     if ('Error' == tag) {
       _maps[tag]?.message?.forEach((element) {
@@ -146,41 +103,5 @@ class Monitor {
       });
     }
     _maps[tag]?.clear();
-  }
-
-  void putError(String line) async {
-    if (_enable && GetPlatform.isMobile) {
-      Directory dir = await FileUtils.getAppDirectory();
-      DateTime date = DateTime.now();
-      File file = File(
-          '${dir.path}error/${DateUtil.formatDate(date, format: 'yyyy_MM_dd_HH_mm_ss')}${DateUtil.getNowDateMs()}');
-      String? _errorHeader = await ErrorInfoProcessor.getDeviceInfo();
-      await file.create();
-      await file.writeAsString('$_errorHeader\n$line');
-      put("Error", file.path, limit: false);
-      debugPrint(line);
-    }
-  }
-
-  //将上次所有的错误文件放入到集合中
-  void _putLastErrorFile() async {
-    try {
-      if (_enable && GetPlatform.isMobile) {
-        Directory directory = await FileUtils.getAppDirectory();
-        directory = new Directory('${directory.path}error/');
-        if (!directory.existsSync()) {
-          await directory.create();
-        } else {
-          List<FileSystemEntity> files = directory.listSync();
-          for (var f in files) {
-            if (FileSystemEntity.isFileSync(f.path)) {
-              put('Error', f.path, limit: false);
-            }
-          }
-        }
-      }
-    } catch (e) {
-      print(e);
-    }
   }
 }

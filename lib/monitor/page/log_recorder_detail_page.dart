@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:ume_kit_monitor/core.dart';
+import 'package:ume_kit_monitor/monitor/utils/inner_utils.dart';
 
 /// @date 10/9/21
 /// describe:

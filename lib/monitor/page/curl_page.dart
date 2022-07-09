@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:ume_kit_monitor/monitor/awesome_monitor.dart';
 import 'package:ume_kit_monitor/monitor/monitor_message_notifier.dart';
-import 'package:ume_kit_monitor/monitor/overlay/overlay_image.dart';
-import 'package:ume_kit_monitor/monitor/overlay/overlay_pane.dart';
 import 'package:ume_kit_monitor/monitor/page/json_viewer_page.dart';
 import 'package:ume_kit_monitor/monitor/utils/inner_utils.dart';
+import 'package:ume_kit_monitor/monitor/utils/navigator_util.dart';
+import 'package:ume_kit_monitor/monitor/widgets/inner_image.dart';
+import 'package:ume_kit_monitor/monitor/widgets/input_panel_field.dart';
 
 import 'log_recorder_page.dart';
 
@@ -93,8 +96,7 @@ class _CurlPageState extends State<CurlPage> {
                   ),
                   IconButton(
                     onPressed: () {
-                      OverlayPane.hide();
-                      NavigatorUtil.pushPage(LogRecorderPage());
+                      NavigatorUtil.pushPage(context, LogRecorderPage());
                     },
                     icon: Icon(Icons.view_list_sharp, color: Colors.white),
                   ),
@@ -119,32 +121,27 @@ class _CurlPageState extends State<CurlPage> {
       context: context,
       child: ListView.builder(
         itemBuilder: (_, index) => Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.h),
+          padding: EdgeInsets.symmetric(vertical: 8),
           child: GestureDetector(
             onTap: () {
               String content = index >= results!.length ? "" : results[index];
               if (InnerUtils.isEmpty(content)) {
                 return;
               }
-              if (widget.tag == 'Page') {
-                NavigatorUtil.pushName(content);
-              } else if (widget.tag == 'Curl' && content.startsWith("curl -X GET")) {
+              if (widget.tag == 'Curl' && content.startsWith("curl -X GET")) {
                 //只有Get 的请求可以直接访问
                 Iterable<RegExpMatch> matchers = _regexUrl.allMatches(content);
                 if (matchers.isNotEmpty) {
                   String? regexText = matchers.elementAt(0).group(0);
                   if (!InnerUtils.isEmpty(regexText)) {
-                    regexText!.jumpLink();
+                    InnerUtils.jumpLink(regexText);
                   }
                 }
               } else if (widget.tag == 'AesDecode' || widget.tag == 'AesDecodes') {
                 int index = content.indexOf('\n');
                 String api = content.substring(0, index);
                 String text = content.substring(index + 1, content.length);
-                NavigatorUtil.pushPage(JsonViewerPage(api: api, json: text));
-                if (OverlayPane.isShow) {
-                  OverlayPane.hide();
-                }
+                NavigatorUtil.pushPage(context, JsonViewerPage(api: api, json: text));
               }
             },
             onLongPress: () {
@@ -203,7 +200,7 @@ class _CurlPageState extends State<CurlPage> {
   ///通过判断缓存是否有widget,减少正则匹配的次数
   _buildCachedWidget(String text) {
     if (InnerUtils.isEmpty(text)) return Text('');
-    String key = Md5Util.generateMd5(text + _controller.text);
+    String key = InnerUtils.generateMd5(text + _controller.text);
     Map<String?, Widget?>? cached = _tabWidgetCached[widget.tag];
     if (cached == null) {
       cached = Map();
@@ -232,9 +229,14 @@ class _CurlPageState extends State<CurlPage> {
       spans.add(
         WidgetSpan(
           child: GestureDetector(
-            child: ImageLoader.image(regexText.replaceAll('\\/', '/'), height: 30.h),
+            child: InnerImage(regexText.replaceAll('\\/', '/'), height: 30, width: 30),
             onTap: () {
-              OverlayImg.show(_context!, regexText.replaceAll('\\/', '/'));
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return InnerImage(regexText.replaceAll('\\/', '/'), fit: BoxFit.fitWidth);
+                },
+              );
             },
           ),
         ),

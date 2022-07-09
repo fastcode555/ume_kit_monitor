@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ume_kit_monitor/core.dart';
-import 'package:ume_kit_monitor/utils/output_serializer.dart';
+import 'package:ume_kit_monitor/monitor/utils/inner_utils.dart';
+import 'package:ume_kit_monitor/monitor/utils/output_serializer.dart';
 
 class RichTextEditingController extends TextEditingController {
   /// 高亮显示
@@ -13,7 +13,7 @@ class RichTextEditingController extends TextEditingController {
   TextSpan buildTextSpan({required BuildContext context, TextStyle? style, required bool withComposing}) {
     if (highlight) {
       TextSpan? text;
-      if (this.text.isJSON) {
+      if (InnerUtils.isEmpty(this.text)) {
         text = _serializer.formatRich(this.text) ?? const TextSpan();
       }
       return text ?? const TextSpan();

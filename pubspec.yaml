@@ -12,6 +12,11 @@ dependencies:
   flutter:
     sdk: flutter
   device_info_plus:
+  cached_network_image:
   dio:
   teledart:
   oktoast:
+  path_provider:
+  crypto:
+  convert:
+  url_launcher:

@@ -2,13 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ume_kit_monitor/ext/context_ext.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:ume_kit_monitor/monitor/awesome_monitor.dart';
 import 'package:ume_kit_monitor/monitor/monitor_message_notifier.dart';
 import 'package:ume_kit_monitor/monitor/page/monitor_info_detail_page.dart';
-import 'package:ume_kit_monitor/utils/navigator_util.dart';
-import 'package:ume_kit_monitor/utils/screen_ext.dart';
-import 'package:oktoast/oktoast.dart';
+import 'package:ume_kit_monitor/monitor/utils/navigator_util.dart';
 
 /// @date 2020/12/18
 /// describe:
@@ -35,7 +33,7 @@ class _ErrorPageState extends State<ErrorPage> {
             context: context,
             child: ListView.builder(
               itemBuilder: (_, index) => Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.h),
+                padding: EdgeInsets.symmetric(vertical: 8),
                 child: GestureDetector(
                   onLongPress: () {
                     File file = File(datas![index]);
@@ -44,12 +42,12 @@ class _ErrorPageState extends State<ErrorPage> {
                   },
                   onTap: () {
                     _lastClick = index;
-                    NavigatorUtil.pushPage(MonitorInfoDetailPage(fileName: datas![index]));
+                    NavigatorUtil.pushPage(context, MonitorInfoDetailPage(fileName: datas![index]));
                   },
                   child: Text(
                     datas?.elementAt(index) ?? '',
                     style: TextStyle(
-                      color: _lastClick == index ? context.primaryColor : Colors.white,
+                      color: _lastClick == index ? Theme.of(context).primaryColor : Colors.white,
                     ),
                   ),
                 ),
