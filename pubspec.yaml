@@ -1,7 +1,7 @@
 name: ume_kit_monitor
 description: use ume_kit_monitor to check more net log
 
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/fastcode555/ume_kit_monitor
 
 environment:
