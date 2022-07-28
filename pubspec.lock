@@ -71,13 +71,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
-  device_info_plus:
-    dependency: "direct main"
+  cupertino_icons:
+    dependency: transitive
     description:
-      name: device_info_plus
+      name: cupertino_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.1"
+    version: "1.0.5"
   dio:
     dependency: "direct main"
     description:
@@ -170,6 +170,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.6.0"
+  json_shrink_widget:
+    dependency: "direct main"
+    description:
+      name: json_shrink_widget
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
   matcher:
     dependency: transitive
     description:
@@ -526,5 +533,5 @@ packages:
     source: hosted
     version: "0.2.0+1"
 sdks:
-  dart: ">=2.17.0 <3.0.0"
+  dart: ">=2.17.5 <3.0.0"
   flutter: ">=3.0.0"

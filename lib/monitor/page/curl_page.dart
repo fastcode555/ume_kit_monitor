@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:json_shrink_widget/json_shrink_widget.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:ume_kit_monitor/monitor/awesome_monitor.dart';
 import 'package:ume_kit_monitor/monitor/monitor_message_notifier.dart';
-import 'package:ume_kit_monitor/monitor/page/json_viewer_page.dart';
 import 'package:ume_kit_monitor/monitor/utils/inner_utils.dart';
 import 'package:ume_kit_monitor/monitor/utils/navigator_util.dart';
-import 'package:ume_kit_monitor/monitor/widgets/inner_image.dart';
 import 'package:ume_kit_monitor/monitor/widgets/input_panel_field.dart';
 
 import 'log_recorder_page.dart';
@@ -137,11 +136,6 @@ class _CurlPageState extends State<CurlPage> {
                     InnerUtils.jumpLink(regexText);
                   }
                 }
-              } else if (widget.tag == 'AesDecode' || widget.tag == 'AesDecodes') {
-                int index = content.indexOf('\n');
-                String api = content.substring(0, index);
-                String text = content.substring(index + 1, content.length);
-                NavigatorUtil.pushPage(context, JsonViewerPage(api: api, json: text));
               }
             },
             onLongPress: () {
@@ -189,7 +183,7 @@ class _CurlPageState extends State<CurlPage> {
                     TextStyle(color: Colors.red),
                   ],
                 ),
-          _formatImageSpan(text),
+          JsonShrinkWidget(json: text, deepShrink: 1),
         ],
       );
     }
@@ -212,47 +206,6 @@ class _CurlPageState extends State<CurlPage> {
       cached[key] = child;
     }
     return child;
-  }
-
-  ///匹配出图片内容,并加入spans数组中
-  Widget _formatImageSpan(String content) {
-    if (InnerUtils.isEmpty(content)) {
-      return Text(content);
-    }
-    Iterable<RegExpMatch> matchers = _regexUrl.allMatches(content);
-    List<InlineSpan> spans = [];
-    for (Match m in matchers) {
-      String? regexText = m.group(0);
-      int index = content.indexOf(regexText!);
-      String startText = content.substring(0, index);
-      spans.add(TextSpan(text: startText));
-      spans.add(
-        WidgetSpan(
-          child: GestureDetector(
-            child: InnerImage(regexText.replaceAll('\\/', '/'), height: 30, width: 30),
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return InnerImage(regexText.replaceAll('\\/', '/'), fit: BoxFit.fitWidth);
-                },
-              );
-            },
-          ),
-        ),
-      );
-      content = content.substring(index + regexText.length, content.length);
-    }
-    //分割完,最后剩下的
-    spans.add(TextSpan(text: content));
-
-    return RichText(
-      text: TextSpan(
-        text: '',
-        style: TextStyle(color: Colors.white),
-        children: spans,
-      ),
-    );
   }
 
   //第一个颜色为文本的默认颜色,其它颜色为为格式化的富文本的颜色,匹配中括号内的东西,中括号内的作为富文本不同颜色的部分,
