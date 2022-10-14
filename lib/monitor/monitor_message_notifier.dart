@@ -20,9 +20,9 @@ class MonitorMessageNotifier<T> {
         _notifier = ValueNotifier(_message!);
       }
       if (_message!.length >= MAX_COUNT && limit) {
-        _message!.removeAt(0);
+        _message!.removeLast();
       }
-      _message!.add(message);
+      _message!.insert(0, message);
       _notifier!.value = <T>[]..addAll(_message!);
     } catch (e) {
       print(e);
