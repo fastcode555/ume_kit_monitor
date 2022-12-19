@@ -25,7 +25,8 @@ class _ExceptionRecorderPageState extends State<ExceptionRecorderPage> {
   @override
   void initState() {
     super.initState();
-    TelegramBot.init('2030982018:AAFA94f4DKMFy_zFU1pEhAcJsVvVTdmUx1E', /*-1001157361480*/ -552609753);
+    TelegramBot.init('2030982018:AAFA94f4DKMFy_zFU1pEhAcJsVvVTdmUx1E',
+        /*-1001157361480*/ -552609753);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       FileUtils.getAppDirectory().then((dirs) {
         dir = Directory("${dirs.path}error/");

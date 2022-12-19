@@ -52,7 +52,9 @@ class FormatJSONOutputSerializer {
     var data = jsonDecode(json!);
     var output = _formatRichData(
       data,
-      style: InnerUtils.isMobile() ? const JSONOutputStyle() : const JSONOutputStyle(fontSize: 18),
+      style: InnerUtils.isMobile()
+          ? const JSONOutputStyle()
+          : const JSONOutputStyle(fontSize: 18),
     );
     return output;
   }
@@ -74,7 +76,8 @@ extension _FormatRich on FormatJSONOutputSerializer {
         if (i == data.length - 1) {
           box += space + "\"$key\": " + _formatData(data[key], space: space);
         } else {
-          box += space + "\"$key\": " + _formatData(data[key], space: space) + ",";
+          box +=
+              space + "\"$key\": " + _formatData(data[key], space: space) + ",";
         }
       }
       box += "\n";
@@ -194,7 +197,8 @@ extension _FormatRich on FormatJSONOutputSerializer {
         box = box.appendString('\n');
         var e = data[i];
         if (i == data.length - 1) {
-          box += TextSpan(text: space, style: spaceStyle) + _formatRichData(e, space: space, style: style);
+          box += TextSpan(text: space, style: spaceStyle) +
+              _formatRichData(e, space: space, style: style);
         } else {
           box += TextSpan(text: space, style: spaceStyle) +
               _formatRichData(e, space: space, style: style) +

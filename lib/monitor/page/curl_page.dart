@@ -26,8 +26,8 @@ class _CurlPageState extends State<CurlPage> {
   static RegExp _regex = RegExp(r"\[([^\[\]]*)\]");
 
   ///更新正则,已匹配转义后的链接
-  static RegExp _regexUrl =
-      RegExp(r"(https?|ftp|file):(//|\\/\\/)[-A-Za-z0-9+&@#/\%?\\/=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]"); //匹配url
+  static RegExp _regexUrl = RegExp(
+      r"(https?|ftp|file):(//|\\/\\/)[-A-Za-z0-9+&@#/\%?\\/=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]"); //匹配url
 
   ///都是正则匹配,为此为数据添加临时缓存widget,以进一步提高性能
   static Map<String?, Map<String?, Widget?>> _tabWidgetCached = Map();
@@ -54,7 +54,8 @@ class _CurlPageState extends State<CurlPage> {
     }
     //三个字起触发搜索
     if (_controller.text.length > 3) {
-      MonitorMessageNotifier<String>? notifier = Monitor.instance.getNotifier(widget.tag);
+      MonitorMessageNotifier<String>? notifier =
+          Monitor.instance.getNotifier(widget.tag);
       if (notifier?.message != null && notifier!.message!.isNotEmpty) {
         _filerDatas.clear();
         for (int i = 0; i < notifier.message!.length; i++) {
@@ -72,7 +73,8 @@ class _CurlPageState extends State<CurlPage> {
 
   @override
   Widget build(BuildContext context) {
-    MonitorMessageNotifier<String>? notifier = Monitor.instance.getNotifier(widget.tag);
+    MonitorMessageNotifier<String>? notifier =
+        Monitor.instance.getNotifier(widget.tag);
     //当点击清空时,缓存的widget也进行清空
     if (notifier?.message == null || notifier!.message!.isEmpty) {
       _tabWidgetCached[widget.tag]?.clear();
@@ -80,7 +82,9 @@ class _CurlPageState extends State<CurlPage> {
     return ValueListenableBuilder<List<String>>(
       valueListenable: notifier!.notifier!,
       builder: (_, List<String> datas, child) {
-        if (widget.tag == 'Curl' || widget.tag == 'AesDecode' || widget.tag == 'AesDecodes') {
+        if (widget.tag == 'Curl' ||
+            widget.tag == 'AesDecode' ||
+            widget.tag == 'AesDecodes') {
           _startFilter();
           return Column(
             children: [
@@ -147,7 +151,8 @@ class _CurlPageState extends State<CurlPage> {
               Clipboard.setData(ClipboardData(text: content));
               showToast('复制成功');
             },
-            child: _buildCachedWidget(index >= results!.length ? "" : results[index]),
+            child: _buildCachedWidget(
+                index >= results!.length ? "" : results[index]),
           ),
         ),
         itemCount: results?.length ?? 0,
@@ -176,7 +181,8 @@ class _CurlPageState extends State<CurlPage> {
           InnerUtils.isEmpty(_controller.text)
               ? Text(highLightText, style: TextStyle(color: Colors.cyanAccent))
               : _formatColorRichText(
-                  highLightText.replaceAll(_controller.text, '[${_controller.text}]'),
+                  highLightText.replaceAll(
+                      _controller.text, '[${_controller.text}]'),
                   [
                     TextStyle(color: Colors.cyanAccent),
                     TextStyle(color: Colors.red),
@@ -230,7 +236,8 @@ class _CurlPageState extends State<CurlPage> {
       spans.add(TextSpan(text: content.substring(0, index)));
       content = content.substring(index, content.length);
       //切割余下的文本,去掉中括号,留下文本内容
-      spans.add(TextSpan(text: regexText.substring(1, regexText.length - 1), style: style));
+      spans.add(TextSpan(
+          text: regexText.substring(1, regexText.length - 1), style: style));
       content = content.substring(regexText.length, content.length);
       count++;
     }

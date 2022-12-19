@@ -18,12 +18,13 @@ class LogRecorderPage extends StatefulWidget {
 }
 
 class _LogRecorderPageState extends State<LogRecorderPage> {
-  List<FileSystemEntity>? _files = null;
+  List<FileSystemEntity>? _files;
 
   @override
   void initState() {
     super.initState();
-    TelegramBot.init('2109015385:AAGUE_LfQoCIaFW2u-1kqqTgPMFiSzQCk4U', /*-1001157361480*/ -552609753);
+    TelegramBot.init('2109015385:AAGUE_LfQoCIaFW2u-1kqqTgPMFiSzQCk4U',
+        /*-1001157361480*/ -552609753);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       FileUtils.getAppDirectory().then((dirs) {

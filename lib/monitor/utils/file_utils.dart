@@ -38,14 +38,17 @@ class FileUtils {
     return file;
   }
 
-  static Future<File> getImageFileFromAssets(ByteData byteData, {String? name, String? dirName = 'localImgs'}) async {
+  static Future<File> getImageFileFromAssets(ByteData byteData,
+      {String? name, String? dirName = 'localImgs'}) async {
     // Store the picture in the temp directory.
     // Find the temp directory using the `path_provider` plugin.
     String path = (await getAppDirectory()).path + "$dirName/";
     Directory _dir = Directory(path);
     if (!_dir.existsSync()) _dir.createSync();
-    final file = File("${_dir.path}" + '${name ?? DateTime.now().millisecond}.jpg');
-    await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+    final file =
+        File("${_dir.path}" + '${name ?? DateTime.now().millisecond}.jpg');
+    await file.writeAsBytes(byteData.buffer
+        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
     return file;
   }
 
@@ -56,7 +59,8 @@ class FileUtils {
     String path = (await getAppDirectory()).path + "$dirName/";
     Directory _dir = Directory(path);
     if (!_dir.existsSync()) _dir.createSync();
-    final file = File("${_dir.path}" + '${name ?? DateTime.now().millisecond}.jpg');
+    final file =
+        File("${_dir.path}" + '${name ?? DateTime.now().millisecond}.jpg');
     await file.writeAsBytes(unit8list);
     return file;
   }

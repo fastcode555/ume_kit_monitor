@@ -25,10 +25,12 @@ class _OverlayActionPanelState extends State<OverlayActionPanel> {
             alignment: WrapAlignment.center,
             runAlignment: WrapAlignment.center,
             children: [
-              if (Monitor.instance.actions != null) ...?Monitor.instance.actions,
+              if (Monitor.instance.actions != null)
+                ...?Monitor.instance.actions,
               MonitorActionWidget(
                 title: 'ExceptionRecorder',
-                onTap: () => NavigatorUtil.pushPage(context, ExceptionRecorderPage()),
+                onTap: () =>
+                    NavigatorUtil.pushPage(context, ExceptionRecorderPage()),
               ),
             ],
           ),

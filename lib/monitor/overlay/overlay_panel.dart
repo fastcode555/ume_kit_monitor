@@ -14,11 +14,13 @@ class OverlayPane extends StatefulWidget {
 
 int _lastSelectPage = -1;
 
-class _OverlayPaneState extends State<OverlayPane> with TickerProviderStateMixin {
+class _OverlayPaneState extends State<OverlayPane>
+    with TickerProviderStateMixin {
   TabController? _tabController;
   bool _isFullScreen = false;
 
-  double get _statusHeight => _isFullScreen ? MediaQuery.of(context).padding.top : 0;
+  double get _statusHeight =>
+      _isFullScreen ? MediaQuery.of(context).padding.top : 0;
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +30,14 @@ class _OverlayPaneState extends State<OverlayPane> with TickerProviderStateMixin
         _lastSelectPage = tabs.indexOf('Curl');
         _lastSelectPage = _lastSelectPage >= 0 ? _lastSelectPage : 0;
       }
-      _tabController = TabController(length: tabs.length, vsync: this, initialIndex: _lastSelectPage);
+      _tabController = TabController(
+          length: tabs.length, vsync: this, initialIndex: _lastSelectPage);
       _tabController?.addListener(() {
         _lastSelectPage = _tabController?.index ?? 0;
       });
     }
-    double height = window.physicalSize.height / MediaQuery.of(context).devicePixelRatio;
+    double height =
+        window.physicalSize.height / MediaQuery.of(context).devicePixelRatio;
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
@@ -64,12 +68,15 @@ class _OverlayPaneState extends State<OverlayPane> with TickerProviderStateMixin
                         color: Colors.white,
                       ),
                       onPressed: () {
-                        Monitor.instance.clear(tabs[_tabController?.index ?? 0]);
+                        Monitor.instance
+                            .clear(tabs[_tabController?.index ?? 0]);
                       },
                     ),
                     IconButton(
                       icon: Icon(
-                        _isFullScreen ? Icons.fullscreen_exit : Icons.fullscreen,
+                        _isFullScreen
+                            ? Icons.fullscreen_exit
+                            : Icons.fullscreen,
                         color: Colors.white,
                       ),
                       onPressed: () {

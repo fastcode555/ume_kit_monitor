@@ -16,7 +16,7 @@ class TelegramBot {
   static TeleDart? teledart;
   static int? chatId;
 
-  TelegramBot._internal() {}
+  TelegramBot._internal();
 
   static void init(String token, int chatID) async {
     if (teledart == null) {
@@ -36,7 +36,9 @@ class TelegramBot {
   }
 
   void sendMessage(String message, {int? chatId}) {
-    teledart?.sendMessage(chatId ?? TelegramBot.chatId, message).whenComplete(() {
+    teledart
+        ?.sendMessage(chatId ?? TelegramBot.chatId, message)
+        .whenComplete(() {
       showToast("send success");
     }).catchError((error) {
       showToast(error.toString());
@@ -44,7 +46,9 @@ class TelegramBot {
   }
 
   void sendFile(File file, {String? caption}) {
-    teledart?.sendDocument(chatId ?? TelegramBot.chatId, file, caption: caption).whenComplete(() {
+    teledart
+        ?.sendDocument(chatId ?? TelegramBot.chatId, file, caption: caption)
+        .whenComplete(() {
       showToast("send success");
     }).catchError((error) {
       showToast(error.toString());
