@@ -34,10 +34,10 @@ class _CurlPageState extends State<CurlPage> {
 
   TextEditingController _controller = TextEditingController();
   List<String> _filerDatas = [];
-  BuildContext? _context;
 
   @override
   void initState() {
+    super.initState();
     _controller.addListener(() => _startFilter(updateView: true));
   }
 
@@ -77,7 +77,6 @@ class _CurlPageState extends State<CurlPage> {
     if (notifier?.message == null || notifier!.message!.isEmpty) {
       _tabWidgetCached[widget.tag]?.clear();
     }
-    _context = context;
     return ValueListenableBuilder<List<String>>(
       valueListenable: notifier!.notifier!,
       builder: (_, List<String> datas, child) {
