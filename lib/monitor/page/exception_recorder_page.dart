@@ -18,7 +18,7 @@ class ExceptionRecorderPage extends StatefulWidget {
 }
 
 class _ExceptionRecorderPageState extends State<ExceptionRecorderPage> {
-  List<FileSystemEntity>? _files = null;
+  List<FileSystemEntity>? _files;
 
   Directory? dir;
 
@@ -50,9 +50,7 @@ class _ExceptionRecorderPageState extends State<ExceptionRecorderPage> {
             icon: Icon(Icons.delete_forever, color: Colors.black),
           ),
           IconButton(
-            onPressed: () {
-              var file = mergeFiles(_files);
-            },
+            onPressed: () {},
             icon: Icon(Icons.send, color: Colors.black),
           ),
         ],
