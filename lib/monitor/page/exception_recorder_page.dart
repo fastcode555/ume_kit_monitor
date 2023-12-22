@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:ume_kit_monitor/monitor/page/log_recorder_detail_page.dart';
-import 'package:ume_kit_monitor/monitor/telegram_bot.dart';
 import 'package:ume_kit_monitor/monitor/utils/file_utils.dart';
 import 'package:ume_kit_monitor/monitor/utils/inner_utils.dart';
 import 'package:ume_kit_monitor/monitor/utils/navigator_util.dart';
@@ -25,8 +24,6 @@ class _ExceptionRecorderPageState extends State<ExceptionRecorderPage> {
   @override
   void initState() {
     super.initState();
-    TelegramBot.init('2030982018:AAFA94f4DKMFy_zFU1pEhAcJsVvVTdmUx1E',
-        /*-1001157361480*/ -552609753);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       FileUtils.getAppDirectory().then((dirs) {
         dir = Directory("${dirs.path}error/");
@@ -104,12 +101,6 @@ class _ExceptionRecorderPageState extends State<ExceptionRecorderPage> {
               },
               icon: Icon(Icons.delete_forever, color: Colors.black),
             ),
-            IconButton(
-              onPressed: () {
-                TelegramBot.instance.sendFile(file);
-              },
-              icon: Icon(Icons.send, color: Colors.black),
-            ),
           ],
         ),
       ),
@@ -119,7 +110,6 @@ class _ExceptionRecorderPageState extends State<ExceptionRecorderPage> {
   @override
   void dispose() {
     super.dispose();
-    TelegramBot.instance.dispose();
   }
 
   File? mergeFiles(List<FileSystemEntity>? files) {

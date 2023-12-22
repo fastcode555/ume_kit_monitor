@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:ume_kit_monitor/monitor/page/log_recorder_detail_page.dart';
-import 'package:ume_kit_monitor/monitor/telegram_bot.dart';
 import 'package:ume_kit_monitor/monitor/utils/file_utils.dart';
 import 'package:ume_kit_monitor/monitor/utils/inner_utils.dart';
 import 'package:ume_kit_monitor/monitor/utils/navigator_util.dart';
@@ -23,8 +22,6 @@ class _LogRecorderPageState extends State<LogRecorderPage> {
   @override
   void initState() {
     super.initState();
-    TelegramBot.init('2109015385:AAGUE_LfQoCIaFW2u-1kqqTgPMFiSzQCk4U',
-        /*-1001157361480*/ -552609753);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       FileUtils.getAppDirectory().then((dirs) {
@@ -91,21 +88,9 @@ class _LogRecorderPageState extends State<LogRecorderPage> {
               },
               icon: Icon(Icons.delete_forever),
             ),
-            IconButton(
-              onPressed: () {
-                TelegramBot.instance.sendFile(file);
-              },
-              icon: Icon(Icons.send),
-            ),
           ],
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    TelegramBot.instance.dispose();
   }
 }
