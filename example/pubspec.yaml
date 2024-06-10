@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
+  sdk: '>=3.4.0 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -36,16 +36,18 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
+dependency_overrides:
+  vm_service: ^14.2.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_ume: ^1.1.1
-  flutter_ume_kit_ui:
-    git: https://github.com/ehangwork/flutter_ume_kit_ui_fix.git
-  flutter_ume_kit_device: ^1.0.0
-  flutter_ume_kit_perf: ^1.0.0
-  flutter_ume_kit_show_code: ^1.0.0+1
-  flutter_ume_kit_console: ^1.0.0
+  flutter_ume_plus: ^4.0.0
+  flutter_ume_kit_ui_plus: ^4.0.0
+  flutter_ume_kit_device_plus: ^4.0.0
+  flutter_ume_kit_perf_plus: ^4.0.0
+  flutter_ume_kit_show_code_plus: ^4.0.0
+  flutter_ume_kit_console_plus: ^4.0.0
   ume_kit_monitor:
     path: ../
   # The "flutter_lints" package below contains a set of recommended lints to

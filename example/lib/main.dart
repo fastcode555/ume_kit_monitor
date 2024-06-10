@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ume/flutter_ume.dart'; // UME 框架
-import 'package:flutter_ume_kit_console/flutter_ume_kit_console.dart'; // debugPrint 插件包
-import 'package:flutter_ume_kit_device/flutter_ume_kit_device.dart'; // 设备信息插件包
-import 'package:flutter_ume_kit_perf/flutter_ume_kit_perf.dart'; // 性能插件包
-import 'package:flutter_ume_kit_show_code/flutter_ume_kit_show_code.dart'; // 代码查看插件包
-import 'package:flutter_ume_kit_ui/flutter_ume_kit_ui.dart'; // UI 插件包
+import 'package:flutter_ume_plus/flutter_ume_plus.dart'; // UME 框架
+import 'package:flutter_ume_kit_console_plus/flutter_ume_kit_console_plus.dart'; // debugPrint 插件包
+import 'package:flutter_ume_kit_device_plus/flutter_ume_kit_device_plus.dart'; // 设备信息插件包
+import 'package:flutter_ume_kit_perf_plus/flutter_ume_kit_perf_plus.dart'; // 性能插件包
+import 'package:flutter_ume_kit_show_code_plus/flutter_ume_kit_show_code_plus.dart'; // 代码查看插件包
+import 'package:flutter_ume_kit_ui_plus/flutter_ume_kit_ui_plus.dart'; // UI 插件包
 import 'package:ume_kit_monitor/ume_kit_monitor.dart';
 
 import 'consts.dart';
