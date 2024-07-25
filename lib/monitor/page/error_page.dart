@@ -6,7 +6,6 @@ import 'package:oktoast/oktoast.dart';
 import 'package:ume_kit_monitor/monitor/awesome_monitor.dart';
 import 'package:ume_kit_monitor/monitor/monitor_message_notifier.dart';
 import 'package:ume_kit_monitor/monitor/page/monitor_info_detail_page.dart';
-import 'package:ume_kit_monitor/monitor/utils/navigator_util.dart';
 
 /// @date 2020/12/18
 /// describe:
@@ -24,8 +23,7 @@ class ErrorPage extends StatefulWidget {
 class _ErrorPageState extends State<ErrorPage> {
   @override
   Widget build(BuildContext context) {
-    MonitorMessageNotifier<String>? notifier =
-        Monitor.instance.getNotifier(widget.tag);
+    MonitorMessageNotifier<String>? notifier = Monitor.instance.getNotifier(widget.tag);
     return ValueListenableBuilder<List<String>>(
       valueListenable: notifier!.notifier!,
       builder: (_, List<String>? datas, child) {
@@ -38,21 +36,17 @@ class _ErrorPageState extends State<ErrorPage> {
                 child: GestureDetector(
                   onLongPress: () {
                     File file = File(datas![index]);
-                    Clipboard.setData(
-                        ClipboardData(text: file.readAsStringSync()));
-                    showToast('复制成功');
+                    Clipboard.setData(ClipboardData(text: file.readAsStringSync()));
+                    showToast('Copied successfully');
                   },
                   onTap: () {
                     _lastClick = index;
-                    NavigatorUtil.pushPage(context,
-                        MonitorInfoDetailPage(fileName: datas![index]));
+                    Navigator.of(context).pushNamed(MonitorInfoDetailPage.routeName, arguments: datas![index]);
                   },
                   child: Text(
                     datas?.elementAt(index) ?? '',
                     style: TextStyle(
-                      color: _lastClick == index
-                          ? Theme.of(context).primaryColor
-                          : Colors.white,
+                      color: _lastClick == index ? Theme.of(context).primaryColor : Colors.white,
                     ),
                   ),
                 ),

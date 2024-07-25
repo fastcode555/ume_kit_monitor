@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 /// describe:错误消息详情页面
 
 class MonitorInfoDetailPage extends StatefulWidget {
+  static const String routeName = "/page/MonitorInfoDetailPage";
   final String? fileName;
 
   const MonitorInfoDetailPage({Key? key, this.fileName}) : super(key: key);

@@ -32,7 +32,10 @@ class Monitor {
   }
 
   static void init(BuildContext context,
-      {List<MonitorActionWidget>? actions, bool? forceInit}) async {
+      {List<MonitorActionWidget>? actions, bool forceInit=false}) async {
+    if (forceInit) {
+      _enable = forceInit;
+    }
     if (_enable) {
       Monitor.instance.addActions(actions);
     } else {

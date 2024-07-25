@@ -1,7 +1,7 @@
 name: ume_kit_monitor
 description: use ume_kit_monitor to show more infomation contain log,page,curl,response,json
 
-version: 2.0.0
+version: 2.0.2
 homepage: https://github.com/fastcode555/ume_kit_monitor
 
 environment:
@@ -18,3 +18,4 @@ dependencies:
   convert:
   url_launcher:
   json_shrink_widget:
+  share_plus:
