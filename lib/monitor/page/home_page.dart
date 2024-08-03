@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ume_kit_monitor/monitor/awesome_monitor.dart';
 import 'package:ume_kit_monitor/monitor/page/curl_page.dart';
-import 'package:ume_kit_monitor/monitor/page/error_page.dart';
 import 'package:ume_kit_monitor/monitor/widgets/icon_btn.dart';
 
 import 'exception_recorder_page.dart';
@@ -88,9 +87,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   Widget _buildPage(String tag) {
-    if ('Error' == tag) {
-      return ErrorPage(tag: tag);
-    }
     return CurlPage(tag: tag);
   }
 }
