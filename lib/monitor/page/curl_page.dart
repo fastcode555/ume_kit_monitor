@@ -168,7 +168,7 @@ class _CurlPageState extends State<CurlPage> {
     }
 
     //处理请求结果返回的数据
-    if (widget.tag == 'AesDecode' || widget.tag == 'AesDecodes') {
+    if (widget.tag == 'Response' || widget.tag == 'AesDecode' || widget.tag == 'AesDecodes') {
       int index = text.indexOf('\n');
       String highLightText = text.substring(0, index);
       text = text.substring(index + 1, text.length);
