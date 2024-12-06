@@ -5,7 +5,6 @@ import 'package:oktoast/oktoast.dart';
 import 'package:ume_kit_monitor/monitor/awesome_monitor.dart';
 import 'package:ume_kit_monitor/monitor/monitor_message_notifier.dart';
 import 'package:ume_kit_monitor/monitor/utils/inner_utils.dart';
-import 'package:ume_kit_monitor/monitor/utils/navigator_util.dart';
 import 'package:ume_kit_monitor/monitor/widgets/input_panel_field.dart';
 
 import 'log_recorder_page.dart';
@@ -34,10 +33,10 @@ class _CurlPageState extends State<CurlPage> {
 
   TextEditingController _controller = TextEditingController();
   List<String> _filerDatas = [];
-  BuildContext? _context;
 
   @override
   void initState() {
+    super.initState();
     _controller.addListener(() => _startFilter(updateView: true));
   }
 
@@ -70,6 +69,9 @@ class _CurlPageState extends State<CurlPage> {
     }
   }
 
+  bool get showInputField =>
+      widget.tag == 'Response' || widget.tag == 'Curl' || widget.tag == 'AesDecode' || widget.tag == 'AesDecodes';
+
   @override
   Widget build(BuildContext context) {
     MonitorMessageNotifier<String>? notifier = Monitor.instance.getNotifier(widget.tag);
@@ -77,11 +79,10 @@ class _CurlPageState extends State<CurlPage> {
     if (notifier?.message == null || notifier!.message!.isEmpty) {
       _tabWidgetCached[widget.tag]?.clear();
     }
-    _context = context;
     return ValueListenableBuilder<List<String>>(
       valueListenable: notifier!.notifier!,
       builder: (_, List<String> datas, child) {
-        if (widget.tag == 'Curl' || widget.tag == 'AesDecode' || widget.tag == 'AesDecodes') {
+        if (showInputField) {
           _startFilter();
           return Column(
             children: [
@@ -89,14 +90,12 @@ class _CurlPageState extends State<CurlPage> {
                 children: [
                   Expanded(
                     child: InputPanelField(
-                      hintText: '输入关键字以搜索接口',
+                      hintText: 'Enter keywords to search for endpoint',
                       controller: _controller,
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
-                      NavigatorUtil.pushPage(context, LogRecorderPage());
-                    },
+                    onPressed: () => Navigator.of(context).pushNamed(LogRecorderPage.routeName),
                     icon: Icon(Icons.view_list_sharp, color: Colors.white),
                   ),
                 ],
@@ -146,7 +145,7 @@ class _CurlPageState extends State<CurlPage> {
                 content = content.split('/').last;
               }
               Clipboard.setData(ClipboardData(text: content));
-              showToast('复制成功');
+              showToast('Copied successfully');
             },
             child: _buildCachedWidget(index >= results!.length ? "" : results[index]),
           ),
@@ -167,7 +166,7 @@ class _CurlPageState extends State<CurlPage> {
     }
 
     //处理请求结果返回的数据
-    if (widget.tag == 'AesDecode' || widget.tag == 'AesDecodes') {
+    if (widget.tag == 'Response' || widget.tag == 'AesDecode' || widget.tag == 'AesDecodes') {
       int index = text.indexOf('\n');
       String highLightText = text.substring(0, index);
       text = text.substring(index + 1, text.length);
@@ -183,12 +182,11 @@ class _CurlPageState extends State<CurlPage> {
                     TextStyle(color: Colors.red),
                   ],
                 ),
-          JsonShrinkWidget(json: text, deepShrink: 1),
+          JsonShrinkWidget(json: text, deepShrink: 1, indentation: "  "),
         ],
       );
     }
-    //普通文本数据
-    return Text(text, style: TextStyle(color: Colors.white));
+    return _buildNormalJsonWidget(text);
   }
 
   ///通过判断缓存是否有widget,减少正则匹配的次数
@@ -246,5 +244,54 @@ class _CurlPageState extends State<CurlPage> {
         children: spans,
       ),
     );
+  }
+
+  Widget _buildNormalJsonWidget(String text) {
+    try {
+      if (text.contains('{') || text.contains('[')) {
+        String jsonText = '';
+        String flowerText = _getFlowerCommaString(text);
+        String bracketText = _geBracketsString(text);
+        jsonText = flowerText.length > bracketText.length ? flowerText : bracketText;
+        if (jsonText.isNotEmpty) {
+          int index = text.indexOf(jsonText);
+          String header = text.substring(0, index);
+          String tail = text.substring(index + jsonText.length, text.length);
+          return RichText(
+            text: TextSpan(
+              text: '',
+              children: [
+                TextSpan(text: header, style: TextStyle(color: Colors.white)),
+                WidgetSpan(child: JsonShrinkWidget(json: jsonText, deepShrink: 1, indentation: "  ")),
+                TextSpan(text: tail, style: TextStyle(color: Colors.white)),
+              ],
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+    return Text(text, style: TextStyle(color: Colors.white));
+  }
+
+  String _getFlowerCommaString(String text) {
+    if (text.contains('{') && text.contains('}')) {
+      int index = text.indexOf('{');
+      int lastIndex = text.lastIndexOf('}');
+      String result = text.substring(index, lastIndex + 1);
+      return result;
+    }
+    return '';
+  }
+
+  String _geBracketsString(String text) {
+    if (text.contains('[') && text.contains(']')) {
+      int index = text.indexOf('[');
+      int lastIndex = text.lastIndexOf(']');
+      String result = text.substring(index, lastIndex + 1);
+      return result;
+    }
+    return '';
   }
 }

@@ -1,14 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ume_kit_perf_plus/flutter_ume_kit_perf_plus.dart';
-import 'package:flutter_ume_plus/flutter_ume_plus.dart';
+import 'package:flutter_ume_plus/flutter_ume_plus.dart'; // UME 框架
+import 'package:flutter_ume_kit_console_plus/flutter_ume_kit_console_plus.dart'; // debugPrint 插件包
+import 'package:flutter_ume_kit_device_plus/flutter_ume_kit_device_plus.dart'; // 设备信息插件包
+import 'package:flutter_ume_kit_perf_plus/flutter_ume_kit_perf_plus.dart'; // 性能插件包
+import 'package:flutter_ume_kit_show_code_plus/flutter_ume_kit_show_code_plus.dart'; // 代码查看插件包
+import 'package:flutter_ume_kit_ui_plus/flutter_ume_kit_ui_plus.dart'; // UI 插件包
 import 'package:ume_kit_monitor/ume_kit_monitor.dart';
+
+import 'consts.dart';
 
 void main() {
   PluginManager.instance
     ..register(const MonitorPlugin())
     ..register(const MonitorActionsPlugin())
-    ..register(Performance());
-  runApp(const UMEWidget(child: MyApp())); // 初始化
+    ..register(const WidgetInfoInspector())
+    ..register(const WidgetDetailInspector())
+    ..register(const ColorSucker())
+    ..register(AlignRuler())
+    ..register(const ColorPicker()) // 新插件
+    ..register(const TouchIndicator()) // 新插件
+    ..register(Performance())
+    ..register(const ShowCode())
+    ..register(const MemoryInfoPage())
+    ..register(CpuInfoPage())
+    ..register(const DeviceInfoPanel())
+    ..register(Console());
+  runApp(const UMEWidget(enable: true, child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -37,44 +54,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final json = '''
-  {
-  "username":"Barry",
-  "gender":"male",
-  "bio":"haaaaaaaaa",
-  "birthday":"1995-07-26T00:00:00.000Z",
-  "loginMethod":"google",
-  "nickname":"Barry",
-  "avatar":"https://dev.e-play.online/api/v2/assets/users/avatar/1730780140899-1730780138786.jpg",
-  "isActive":true,
-  "profileFilled":true,
-  "ipAddress":"Cambodia",
-  "id":10609,
-  "phone":null,
-  "phoneCountry":null,
-  "email":"barry018.infinity@gmail.com.bk",
-  "following":"6",
-  "follower":"8",
-  "blacklist":"1",
-  "tags":[
-    {
-      "id":1,
-      "code":"jazz",
-      "name":"JAZZ"
-    },
-    {
-      "id":10,
-      "code":"dance",
-      "name":"DANCE"
-    },
-    {
-      "id":13,
-      "code":"metal",
-      "name":"METAL"
-    }
-  ]
-}
-      ''';
+  int _counter = 0;
 
   @override
   void initState() {
@@ -83,30 +63,47 @@ class _MyHomePageState extends State<MyHomePage> {
       Monitor.init(
         context,
         actions: [
-          MonitorActionWidget(title: 'DebugPage', onTap: () {}),
+          MonitorActionWidget(title: "DebugPage", onTap: () {}),
+          MonitorActionWidget(title: "Dialog Page", onTap: () {}),
+          MonitorActionWidget(title: "Test Page", onTap: () {}),
         ],
       );
+      Monitor.instance.putsConsole(["当前Ids：....."]);
+      Monitor.instance.put('AesDecode', 'testApi\n$jsonString');
+    });
+  }
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
       body: Center(
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            GestureDetector(
-              onTap: () {
-                Monitor.instance.put("Response", "here the response");
-                Monitor.instance.put("Response", json);
-                Monitor.instance.put("Json", json);
-              },
-              child: const Text('Click me to show the log'),
+            const Text(
+              'You have pushed the button this many times:',
+            ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

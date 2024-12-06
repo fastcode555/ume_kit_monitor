@@ -1,22 +1,21 @@
 name: ume_kit_monitor
-description: use ume_kit_monitor to check more net log
+description: use ume_kit_monitor to show more infomation contain log,page,curl,response,json
 
-version: 1.0.5
+version: 2.0.5
 homepage: https://github.com/fastcode555/ume_kit_monitor
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: '>=3.2.3 <4.0.0'
 
 dependencies:
-  flutter_ume: '>=0.3.0'
+  flutter_ume_plus: '>=4.0.0'
   flutter:
     sdk: flutter
-  cached_network_image:
   dio:
-  teledart:
   oktoast:
   path_provider:
   crypto:
   convert:
   url_launcher:
   json_shrink_widget:
+  share_plus:
