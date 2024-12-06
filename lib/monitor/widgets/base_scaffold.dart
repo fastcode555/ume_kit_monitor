@@ -9,7 +9,6 @@ class BaseScaffold extends StatelessWidget {
   final List<Widget>? actions;
 
   const BaseScaffold({
-    super.key,
     required this.body,
     this.title,
     this.actions,

@@ -9,7 +9,6 @@ class IconBtn extends StatelessWidget {
 
   const IconBtn(
     this.icon, {
-    super.key,
     this.onTap,
   });
 

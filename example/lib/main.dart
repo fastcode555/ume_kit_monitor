@@ -70,6 +70,9 @@ class _MyHomePageState extends State<MyHomePage> {
       );
       Monitor.instance.putsConsole(["当前Ids：....."]);
       Monitor.instance.put('AesDecode', 'testApi\n$jsonString');
+      Monitor.instance.put('Response', 'testApi\n$jsonString');
+      Monitor.instance.put('json', 'testApi\n$jsonString');
+      Monitor.instance.put('test', 'here is a demo');
     });
   }
 
