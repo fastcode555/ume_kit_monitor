@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ume_plus/flutter_ume_plus.dart'; // UME 框架
 import 'package:flutter_ume_kit_console_plus/flutter_ume_kit_console_plus.dart'; // debugPrint 插件包
 import 'package:flutter_ume_kit_device_plus/flutter_ume_kit_device_plus.dart'; // 设备信息插件包
 import 'package:flutter_ume_kit_perf_plus/flutter_ume_kit_perf_plus.dart'; // 性能插件包
 import 'package:flutter_ume_kit_show_code_plus/flutter_ume_kit_show_code_plus.dart'; // 代码查看插件包
 import 'package:flutter_ume_kit_ui_plus/flutter_ume_kit_ui_plus.dart'; // UI 插件包
+import 'package:flutter_ume_plus/flutter_ume_plus.dart'; // UME 框架
 import 'package:ume_kit_monitor/ume_kit_monitor.dart';
 
 import 'consts.dart';
@@ -67,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
           MonitorActionWidget(title: "Dialog Page", onTap: () {}),
           MonitorActionWidget(title: "Test Page", onTap: () {}),
         ],
+        forceInit: true,
       );
       Monitor.instance.putsConsole(["当前Ids：....."]);
       Monitor.instance.put('AesDecode', 'testApi\n$jsonString');
