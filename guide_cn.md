@@ -1,13 +1,13 @@
-# UME Kit Monitor Guide
+# UME Kit Monitor 使用指南
 
 [English](guide.md) | [中文](guide_cn.md) | [Deutsch](guide_de.md) | [Português](guide_pt.md) | [日本語](guide_jp.md) | [한국어](guide_kr.md)
 
-UME Kit Monitor is a Flutter debugging toolkit that provides network request logging, console output, page tracking and more debugging features. It integrates with flutter_ume_plus to provide an easy-to-use debugging interface.
+UME Kit Monitor 是一个Flutter调试工具包，提供网络请求日志记录、控制台输出、页面追踪等多种调试功能。它与flutter_ume_plus集成，提供了一个易用的调试界面。
 
-I. Installation & Setup
---------------------
+一、安装配置
+----------
 
-1. Add dependencies to `pubspec.yaml`:
+1. 在`pubspec.yaml`中添加依赖:
 
 ```yaml
 dependencies:
@@ -22,7 +22,7 @@ dev_dependencies:
   flutter_ume_kit_console_plus: ^4.0.0
 ```
 
-2. Register plugins in `main.dart`:
+2. 在`main.dart`中注册插件:
 
 ```dart
 void main() {
@@ -37,7 +37,7 @@ void main() {
 }
 ```
 
-3. Initialize Monitor in your app:
+3. 在应用中初始化Monitor:
 
 ```dart
 void initState() {
@@ -46,65 +46,65 @@ void initState() {
     context,
     actions: [
       MonitorActionWidget(
-        title: "Debug", 
+        title: "调试", 
         onTap: () { /* ... */ }
       ),
-      // Add more action buttons...
+      // 添加更多操作按钮...
     ],
   );
 }
 ```
 
-II. Core Features
----------------
+二、核心功能
+----------
 
-1. Console Logging
+1. 控制台日志
 ```dart
-// Output logs to console panel
-Monitor.instance.putsConsole(["Log message"]); 
+// 向控制台面板输出日志
+Monitor.instance.putsConsole(["日志信息"]); 
 ```
 
-2. Network Request Logging
-- Automatically records network requests in curl format for easy debugging
-- View and copy curl commands from the Curl panel
+2. 网络请求日志
+- 自动记录网络请求的curl格式，方便调试和复现
+- 可以从Curl面板查看��复制curl命令
 
-3. JSON Response Viewer
+3. JSON响应查看器
 ```dart
-// Log and view JSON responses with collapsible tree view
+// 记录和查看JSON响应，支持树形折叠视图
 Monitor.instance.put('Response', 'api_name\n$jsonString');
 ```
 
-4. Page Tracking
+4. 页面追踪
 ```dart
-// Automatically track current page/route
-Monitor.instance.putPage("CurrentPage");
+// 自动追踪当前页面/路由
+Monitor.instance.putPage("当前页面");
 ```
 
-5. Custom Tag Monitoring
+5. 自定义标签监控
 ```dart
-// Create custom monitoring panels
-Monitor.instance.put('CustomTag', 'Custom debug info');
+// 创建自定义监控面板
+Monitor.instance.put('自定义标签', '自定义调试信息');
 ```
 
-6. GetX Lifecycle Monitoring
-- Automatically tracks GetX widget lifecycles when enabled
+6. GetX生命周期监控
+- 启用时自动追踪GetX组件的生命周期
 
-III. API Reference
-----------------
+三、API参考
+----------
 
-1. Monitor Class
+1. Monitor类
 ```dart
-// Initialization
+// 初始化
 Monitor.init(context, actions: [...]);
 
-// Core logging methods
+// 核心日志方法
 Monitor.instance.put(String tag, String content)
 Monitor.instance.puts(String tag, List<String> contents) 
 Monitor.instance.putsConsole(List<String> contents)
 Monitor.instance.putPage(String page)
 Monitor.instance.putCurl(String curl)
 
-// Clear logs
+// 清除日志
 Monitor.instance.clear(String tag)
 ```
 
@@ -116,8 +116,8 @@ MonitorActionWidget({
 })
 ```
 
-IV. Usage Example
----------------
+四、使用示例
+----------
 
 ```dart
 void main() {
@@ -136,29 +136,29 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     
-    // Initialize monitor
+    // 初始化monitor
     Monitor.init(
       context,
       actions: [
         MonitorActionWidget(
-          title: "Debug",
+          title: "调试",
           onTap: () { /* ... */ }
         ),
       ],
     );
 
-    // Log some data
-    Monitor.instance.putsConsole(["App started"]);
-    Monitor.instance.put('CustomTag', 'Debug info');
-    Monitor.instance.putPage('HomePage');
+    // 记录一些数据
+    Monitor.instance.putsConsole(["应用已启动"]);
+    Monitor.instance.put('自定义标签', '调试信息');
+    Monitor.instance.putPage('首页');
   }
 }
 ```
 
-V. Important Notes
-----------------
+五、注意事项
+----------
 
-1. Monitor is disabled by default in release builds
-2. Maximum log entries per tag is limited to 20
-3. JSON responses are automatically formatted and collapsible
-4. Network requests containing "ac=last_msg" are filtered out 
+1. Monitor在release构建中默认禁用
+2. 每个标签默认最多保存20条日志记录  
+3. JSON响应会自动格式化并支持折叠
+4. 包含"ac=last_msg"的网络请求会被过滤掉
